@@ -3,6 +3,29 @@
 
 {{cookiecutter.description}}
 
+Getting Started
+------------
+
+1. Clone the repo
+```
+git clone https://github.com/MichiganDataScienceTeam/{{cookiecutter.project_name}}
+```
+
+2. Set up conda environment
+```
+make create_environment
+```
+
+3. Activate environment
+```
+conda activate {{cookiecutter.project_name}}
+```
+
+4. Preprocess the data
+```
+make data
+```
+
 Project Organization
 ------------
 
@@ -19,9 +42,7 @@ Project Organization
     │
     ├── models             <- Trained and serialized models, model predictions, or model summaries
     │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
+    ├── notebooks          <- Jupyter notebooks. Naming convention is <github user>-<purpose>.ipynb
     │
     ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
     │
