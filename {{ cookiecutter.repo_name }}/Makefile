@@ -4,6 +4,7 @@
 # GLOBALS                                                                       #
 #################################################################################
 
+SHELL := /bin/bash
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 BUCKET = {{ cookiecutter.s3_bucket }}
 PROFILE = {{ cookiecutter.aws_profile }}
@@ -56,21 +57,20 @@ endif
 
 ## Set up python interpreter environment
 create_environment:
-	if command -v python3 &>/dev/null; then
-		@echo ">>> Creating virtualenv in env/"
-	else
-		@echo ">>> python3 is not installed. Install python3 and try again."
-	fi
-	python3 -m venv --upgrade env
-	@echo ">>> New virtualenv created. Activate with `make start`"
-
-## Activate virtualenv
-start:
-	source $(PROJECT_DIR)/env/bin/activate
+	@echo ">>> Creating virtualenv in env/"
+	@python3 -m venv env
+	# the following line creates a .envrc file for tools like direnv:
+	# https://direnv.net/
+	@echo 'source $(PROJECT_DIR)/env/bin/activate' > .envrc
+	@echo ">>> Installing packages from requirements.txt"
+	@source $(PROJECT_DIR)/env/bin/activate
+	@$(PROJECT_DIR)/env/bin/python -m pip install -r requirements.txt
+	@echo ">>> New virtualenv created. Activate with 'source env/bin/activate' in project root"
 
 ## Start Jupyter notebook in the virtual environment
 notebook:
-	$(PROJECT_DIR)/env/bin/jupyter-notebook
+	@source $(PROJECT_DIR)/env/bin/activate
+	$(PROJECT_DIR)/env/bin/jupyter-notebook $(PROJECT_DIR)/notebooks
 
 ## Test python environment is setup correctly
 test_environment:
