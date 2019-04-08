@@ -18,12 +18,18 @@ make create_environment
 
 3. Activate environment
 ```
-conda activate {{cookiecutter.project_name}}
+source env/bin/activate
 ```
+or, if you have [direnv](https://direnv.net/) installed, `direnv allow`.
 
 4. Preprocess the data
 ```
 make data
+```
+
+5. Start Jupyter Notebook
+```
+make notebook
 ```
 
 Project Organization

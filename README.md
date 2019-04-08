@@ -5,7 +5,7 @@ Based on [this repo](http://drivendata.github.io/cookiecutter-data-science/) fro
 
 ### Requirements to use the template:
 -----------
- - Python 2.7 or 3.5
+ - Python 3.5+
  - [Cookiecutter Python package](http://cookiecutter.readthedocs.org/en/latest/installation.html) >= 1.4.0: This can be installed with pip by or conda depending on how you manage your Python packages:
 
 ``` bash
@@ -43,7 +43,7 @@ git push origin master
 ### The resulting directory structure
 ------------
 
-The directory structure of your new project looks like this: 
+The directory structure of your new project looks like this:
 
 ```
 ├── LICENSE
