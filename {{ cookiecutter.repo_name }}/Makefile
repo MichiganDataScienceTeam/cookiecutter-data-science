@@ -1,4 +1,4 @@
-.PHONY: clean data lint requirements sync_data_to_s3 sync_data_from_s3
+.PHONY: start clean data lint requirements sync_data_to_s3 sync_data_from_s3
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -56,21 +56,21 @@ endif
 
 ## Set up python interpreter environment
 create_environment:
-ifeq (True,$(HAS_CONDA))
-		@echo ">>> Detected conda, creating conda environment."
-ifeq (3,$(findstring 3,$(PYTHON_INTERPRETER)))
-	conda create --name $(PROJECT_NAME) python=3
-else
-	conda create --name $(PROJECT_NAME) python=2.7
-endif
-		@echo ">>> New conda env created. Activate with:\nsource activate $(PROJECT_NAME)"
-else
-	$(PYTHON_INTERPRETER) -m pip install -q virtualenv virtualenvwrapper
-	@echo ">>> Installing virtualenvwrapper if not already intalled.\nMake sure the following lines are in shell startup file\n\
-	export WORKON_HOME=$$HOME/.virtualenvs\nexport PROJECT_HOME=$$HOME/Devel\nsource /usr/local/bin/virtualenvwrapper.sh\n"
-	@bash -c "source `which virtualenvwrapper.sh`;mkvirtualenv $(PROJECT_NAME) --python=$(PYTHON_INTERPRETER)"
-	@echo ">>> New virtualenv created. Activate with:\nworkon $(PROJECT_NAME)"
-endif
+	if command -v python3 &>/dev/null; then
+		@echo ">>> Creating virtualenv in env/"
+	else
+		@echo ">>> python3 is not installed. Install python3 and try again."
+	fi
+	python3 -m venv --upgrade env
+	@echo ">>> New virtualenv created. Activate with `make start`"
+
+## Activate virtualenv
+start:
+	source $(PROJECT_DIR)/env/bin/activate
+
+## Start Jupyter notebook in the virtual environment
+notebook:
+	$(PROJECT_DIR)/env/bin/jupyter-notebook
 
 ## Test python environment is setup correctly
 test_environment:
